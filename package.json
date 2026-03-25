@@ -1,0 +1,13 @@
+{
+  "name": "multiverseos",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "dev": "pnpm -r --parallel dev"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

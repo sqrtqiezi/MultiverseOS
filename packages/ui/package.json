@@ -1,0 +1,10 @@
+{
+  "name": "@multiverseos/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'UI not yet scaffolded'",
+    "build": "echo 'UI not yet scaffolded'"
+  }
+}
