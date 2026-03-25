@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { createDb, IngestEngine, VerseStore, RunStore, EventStore } from "@multiverseos/core";
+import { drainBuffer } from "./buffer-drain.js";
 
 export function createServer(opts: { port: number; dbPath: string }) {
   const app = new Hono();
@@ -66,11 +67,13 @@ export function createServer(opts: { port: number; dbPath: string }) {
     return c.body('data: {"type":"connected"}\n\n');
   });
 
-  return app;
+  return { app, engine };
 }
 
 export function startServer(opts: { port: number; dbPath: string }) {
-  const app = createServer(opts);
+  const { app, engine } = createServer(opts);
+  const drained = drainBuffer(engine);
+  if (drained > 0) console.log(`Drained ${drained} buffered events`);
   console.log(`🚀 MultiverseOS server listening on http://localhost:${opts.port}`);
   serve({ fetch: app.fetch, port: opts.port });
 }
