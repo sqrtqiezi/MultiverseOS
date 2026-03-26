@@ -1,0 +1,70 @@
+{
+  "repository_type": "monorepo",
+  "package_manager": "pnpm",
+  "workspace_config": "pnpm-workspace.yaml",
+  "parts": [
+    {
+      "part_id": "core",
+      "package_name": "@multiverseos/core",
+      "project_type": "backend",
+      "root_path": "packages/core",
+      "entry_point": "src/index.ts",
+      "technologies": ["TypeScript", "SQLite", "Drizzle ORM", "Zod", "ULID"],
+      "has_tests": true,
+      "test_count": 5
+    },
+    {
+      "part_id": "cli",
+      "package_name": "@multiverseos/cli",
+      "project_type": "cli",
+      "root_path": "packages/cli",
+      "entry_point": "src/index.ts",
+      "binary": "verse",
+      "technologies": ["TypeScript", "Commander.js", "Hono", "Chalk"],
+      "has_tests": true,
+      "test_count": 1,
+      "depends_on": ["core"]
+    },
+    {
+      "part_id": "hooks",
+      "package_name": "@multiverseos/hooks",
+      "project_type": "library",
+      "root_path": "packages/hooks",
+      "entry_point": "src/index.ts",
+      "technologies": ["TypeScript", "Zod"],
+      "has_tests": true,
+      "test_count": 1
+    },
+    {
+      "part_id": "ui",
+      "package_name": "@multiverseos/ui",
+      "project_type": "web",
+      "root_path": "packages/ui",
+      "entry_point": "src/main.tsx",
+      "technologies": ["TypeScript", "React 19", "Vite", "Tailwind CSS"],
+      "has_tests": false,
+      "test_count": 0
+    }
+  ],
+  "integration_points": [
+    {
+      "from": "hooks",
+      "to": "cli",
+      "type": "HTTP",
+      "protocol": "POST /api/events",
+      "fallback": "~/.multiverseos/buffer.jsonl"
+    },
+    {
+      "from": "cli",
+      "to": "core",
+      "type": "Import",
+      "protocol": "workspace:*"
+    },
+    {
+      "from": "ui",
+      "to": "cli",
+      "type": "HTTP",
+      "protocol": "REST API via /api/* proxy"
+    }
+  ]
+}
