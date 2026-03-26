@@ -18,24 +18,42 @@ export const initCommand = new Command("init")
     console.log(`✓ Database initialized at ${dbPath}`);
 
     const settingsPath = join(homedir(), ".claude", "settings.json");
-    let settings: any = { hooks: [] };
+    let settings: any = { hooks: {} };
     if (existsSync(settingsPath)) {
       settings = JSON.parse(readFileSync(settingsPath, "utf-8"));
-      if (!settings.hooks) settings.hooks = [];
+      if (typeof settings.hooks !== "object" || Array.isArray(settings.hooks)) {
+        settings.hooks = {};
+      }
     } else {
       mkdirSync(join(homedir(), ".claude"), { recursive: true });
     }
 
-    const hooksDir = join(process.cwd(), "node_modules", "@multiverseos", "hooks", "dist");
-    const hookTypes = ["PreToolUse", "PostToolUse", "Notification", "Stop"];
+    const hooksDir = join(process.cwd(), "packages", "hooks", "dist");
+    const hookMap = {
+      PreToolUse: "pre-tool-use.js",
+      PostToolUse: "post-tool-use.js",
+      Notification: "notification.js",
+      Stop: "stop.js"
+    };
 
-    for (const type of hookTypes) {
-      const existing = settings.hooks.find((h: any) => h.type === type && h.command?.includes("@multiverseos/hooks"));
-      if (!existing) {
-        settings.hooks.push({
-          type,
-          command: `node ${join(hooksDir, type.toLowerCase() + ".js")}`
-        });
+    for (const [type, filename] of Object.entries(hookMap)) {
+      if (!settings.hooks[type]) {
+        settings.hooks[type] = [];
+      }
+      const existingIndex = settings.hooks[type].findIndex((entry: any) =>
+        entry.hooks?.[0]?.command?.includes("@multiverseos/hooks")
+      );
+      const newHook = {
+        matcher: "",
+        hooks: [{
+          type: "command",
+          command: `node ${join(hooksDir, filename)}`
+        }]
+      };
+      if (existingIndex >= 0) {
+        settings.hooks[type][existingIndex] = newHook;
+      } else {
+        settings.hooks[type].push(newHook);
       }
     }
 
