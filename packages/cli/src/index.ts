@@ -13,6 +13,7 @@ import { timelineCommand } from "./commands/timeline.js";
 import { eventsCommand } from "./commands/events.js";
 import { bindCommand } from "./commands/bind.js";
 import { costCommand } from "./commands/cost.js";
+import { uiCommand } from "./commands/ui.js";
 
 const program = new Command();
 program.name("verse").description("MultiverseOS — experiment management for Claude Code").version("0.1.0");
@@ -29,4 +30,5 @@ program.addCommand(timelineCommand);
 program.addCommand(eventsCommand);
 program.addCommand(bindCommand);
 program.addCommand(costCommand);
+program.addCommand(uiCommand);
 program.parse();

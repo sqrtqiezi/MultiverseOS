@@ -1,7 +1,10 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { createDb, IngestEngine, VerseStore, RunStore, EventStore } from "@multiverseos/core";
 import { drainBuffer } from "./buffer-drain.js";
+import { join } from "node:path";
+import { existsSync } from "node:fs";
 
 export function createServer(opts: { port: number; dbPath: string }) {
   const app = new Hono();
@@ -66,6 +69,14 @@ export function createServer(opts: { port: number; dbPath: string }) {
     c.header("Connection", "keep-alive");
     return c.body('data: {"type":"connected"}\n\n');
   });
+
+  // Serve UI static files
+  const uiDistPath = join(import.meta.dirname ?? __dirname, "../../ui/dist");
+  if (existsSync(uiDistPath)) {
+    app.use("/*", serveStatic({ root: uiDistPath }));
+    // SPA fallback
+    app.get("*", serveStatic({ root: uiDistPath, path: "index.html" }));
+  }
 
   return { app, engine };
 }
