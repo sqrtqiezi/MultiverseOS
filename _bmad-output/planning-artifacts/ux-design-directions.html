@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MultiverseOS UX Design Directions</title>
+  <style>
+    body { margin:0; font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; background:#0a0f1d; color:#e5e7eb; }
+    .wrap { max-width:1300px; margin:0 auto; padding:24px; }
+    h1 { margin:0 0 8px; font-size:30px; }
+    p { color:#94a3b8; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:18px; }
+    .mock { border:1px solid #1f2937; border-radius:14px; overflow:hidden; background:#111827; }
+    .title { padding:12px 14px; font-weight:700; border-bottom:1px solid #1f2937; }
+    .frame { padding:14px; display:grid; gap:10px; }
+    .row { display:grid; grid-template-columns:120px 1fr; gap:10px; }
+    .chip { background:#1f2937; border-radius:999px; font-size:12px; padding:4px 8px; width:max-content; }
+    .panel { background:#0f172a; border:1px solid #1e293b; border-radius:10px; min-height:64px; padding:10px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>MultiverseOS 设计方向探索</h1>
+    <p>6 个方向草图，用于评估信息密度、导航组织与差异展示方式。</p>
+    <div class="grid">
+      <section class="mock"><div class="title">D1 · Console Dense</div><div class="frame"><div class="chip">High Density</div><div class="row"><div class="panel">Runs</div><div class="panel">Timeline + raw logs</div></div></div></section>
+      <section class="mock"><div class="title">D2 · Analyst Dashboard (Chosen)</div><div class="frame"><div class="chip">Balanced</div><div class="row"><div class="panel">Runs/Filters</div><div class="panel">Timeline + Insight Cards</div></div></div></section>
+      <section class="mock"><div class="title">D3 · Document Workbench</div><div class="frame"><div class="chip">Low Density</div><div class="row"><div class="panel">Narrative Outline</div><div class="panel">Evidence Blocks</div></div></div></section>
+      <section class="mock"><div class="title">D4 · Diff First</div><div class="frame"><div class="chip">Compare Priority</div><div class="row"><div class="panel">Run Pair Picker</div><div class="panel">Event/Code/Cost Diff</div></div></div></section>
+      <section class="mock"><div class="title">D5 · Ops Monitor</div><div class="frame"><div class="chip">Realtime</div><div class="row"><div class="panel">Live Run Status</div><div class="panel">Failure Diagnostics</div></div></div></section>
+      <section class="mock"><div class="title">D6 · Minimal Focus</div><div class="frame"><div class="chip">Distraction Free</div><div class="row"><div class="panel">Single Run Context</div><div class="panel">Step Drill-down</div></div></div></section>
+    </div>
+  </div>
+</body>
+</html>
