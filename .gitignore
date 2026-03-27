@@ -6,3 +6,4 @@ dist/
 artifacts/
 buffer.jsonl
 .env
+packages/ui/tsconfig.tsbuildinfo
