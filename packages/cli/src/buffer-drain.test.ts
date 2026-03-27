@@ -1,13 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { parseBufferLine, drainBuffer } from "./buffer-drain.js";
 import type { HookEvent, IngestEngine } from "@multiverseos/core";
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 import { rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 
 // Use a temp directory for testing so we don't touch real user data
 const TEST_BUFFER_DIR = join(
-  process.env.HOME ?? "/tmp",
+  tmpdir(),
   ".multiverseos-test-drain"
 );
 const TEST_BUFFER_PATH = join(TEST_BUFFER_DIR, "buffer.jsonl");
